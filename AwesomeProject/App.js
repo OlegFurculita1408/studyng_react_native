@@ -1,49 +1,80 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
+import React, {useState} from 'react';
+import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 
-const COURSES = [
-  {
-    id: "45k6-j54k-4jth",
-    title: "HTML",
-  },
-  {
-    id: "4116-jfk5-43rh",
-    title: "JavaScript",
-  },
-  {
-    id: "4d16-5tt5-4j55",
-    title: "React",
-  },
-  {
-    id: "LG16-ant5-0J25",
-    title: "React Native",
-  },
-];
-
-export default function App() {
-  const [courses, setCourses] = useState(COURSES);
-
+const App = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={courses}
-        renderItem={({ item }) => <Text>{item.title}</Text>}
-        keyExtractor={(item) => item.id}
-      />
-    </SafeAreaView>
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </Pressable>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  centeredView: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
+
+export default App;
